@@ -67,9 +67,29 @@ in your `module-info` file.
 
 #Netty源码分析
 ##BIO
+![](docs\imgs\bio.png)
+![](docs\imgs\bio2.png)
 ##NIO
 ```aidl
-    Buffer
-    Channel
-    Select
+Buffer
+    1、ByteBuffer
+    2、CharBuffer
+    3、FloatBuffer
+    4、DoubleBuffer
+    5、ShortBuffer
+    6、IntBuffer
+    7、LongBuffer
+    8、ShortBuffer
+```
+![](docs\imgs\buffer.png)
+```aidl
+Channel
+    1、文件IO FileChannel
+    2、UDP DatagramChannel
+    3、TCP SocketChannel
+           ServerSocketChannel
+```
+![](docs\imgs\channel.png)
+```aidl
+    Selector
 ```
