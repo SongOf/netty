@@ -1,4 +1,4 @@
-package io.netty.example.io.bio;
+package io.netty.example.io.bio.file;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -16,13 +16,11 @@ public class FileInputStreamDemo {
     public static void main(String[] args) {
         InputStream in = null;
         try {
-            in = new BufferedInputStream(new FileInputStream("src/main/java/io/netty/example/io/bio/text.txt"));
+            in = new BufferedInputStream(new FileInputStream("example\\src\\main\\java\\io\\netty\\example\\io\\bio\\text.txt"));
             byte[] buf = new byte[1024];
             int bytesRead = in.read(buf);
             while (bytesRead != -1) {
-                for (int i = 0; i < bytesRead; i++) {
-                    System.out.println((char)buf[i]);
-                }
+                System.out.println(new String(buf));
                 bytesRead = in.read(buf);
             }
         } catch (IOException e) {

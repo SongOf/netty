@@ -83,6 +83,16 @@ Buffer
 ```
 ![](docs\imgs\buffer.png)
 ```aidl
+Buffer初始状态：
+```
+![](docs\imgs\buf1.png)
+```aidl
+Buffer写状态：
+```
+![](docs\imgs\buf2.png)
+Buffer读状态：
+![](docs\imgs\buf3.png)
+```aidl
 Channel
     1、文件IO FileChannel
     2、UDP DatagramChannel
