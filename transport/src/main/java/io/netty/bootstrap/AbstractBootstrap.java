@@ -243,6 +243,7 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
      * Create a new {@link Channel} and bind it.
      */
     public ChannelFuture bind(int inetPort) {
+        //InetSocketAddress封装
         return bind(new InetSocketAddress(inetPort));
     }
 

@@ -28,15 +28,22 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class DefaultThreadFactory implements ThreadFactory {
 
+    //每个DefaultThreadFactory实例 都有自己的poolId
     private static final AtomicInteger poolId = new AtomicInteger();
-
+    //每个DefaultThreadFactory实例 内部生成的线程都有他自己的线程ID
     private final AtomicInteger nextId = new AtomicInteger();
+    //线程名称前缀
     private final String prefix;
+    //是否是daemon线程
     private final boolean daemon;
+    //线程优先级 默认值是5
     private final int priority;
     protected final ThreadGroup threadGroup;
 
     public DefaultThreadFactory(Class<?> poolType) {
+        //类型 例如NioEventLoopGroup Class
+        //非守护线程
+        //5
         this(poolType, false, Thread.NORM_PRIORITY);
     }
 
@@ -63,10 +70,10 @@ public class DefaultThreadFactory implements ThreadFactory {
     public DefaultThreadFactory(Class<?> poolType, boolean daemon, int priority) {
         this(toPoolName(poolType), daemon, priority);
     }
-
+    //生成PoolName
     public static String toPoolName(Class<?> poolType) {
         ObjectUtil.checkNotNull(poolType, "poolType");
-
+        //获取一个不包含 包名 的className
         String poolName = StringUtil.simpleClassName(poolType);
         switch (poolName.length()) {
             case 0:
@@ -75,6 +82,7 @@ public class DefaultThreadFactory implements ThreadFactory {
                 return poolName.toLowerCase(Locale.US);
             default:
                 if (Character.isUpperCase(poolName.charAt(0)) && Character.isLowerCase(poolName.charAt(1))) {
+                    //类名第一个字母小写
                     return Character.toLowerCase(poolName.charAt(0)) + poolName.substring(1);
                 } else {
                     return poolName;
@@ -97,6 +105,7 @@ public class DefaultThreadFactory implements ThreadFactory {
     }
 
     public DefaultThreadFactory(String poolName, boolean daemon, int priority) {
+
         this(poolName, daemon, priority, System.getSecurityManager() == null ?
                 Thread.currentThread().getThreadGroup() : System.getSecurityManager().getThreadGroup());
     }

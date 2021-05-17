@@ -49,6 +49,8 @@ public class NioEventLoopGroup extends MultithreadEventLoopGroup {
      * {@link SelectorProvider} which is returned by {@link SelectorProvider#provider()}.
      */
     public NioEventLoopGroup(int nThreads) {
+        //内部线程数量
+        //执行器
         this(nThreads, (Executor) null);
     }
 
@@ -69,6 +71,9 @@ public class NioEventLoopGroup extends MultithreadEventLoopGroup {
     }
 
     public NioEventLoopGroup(int nThreads, Executor executor) {
+        //内部线程数量
+        //执行器
+        //选择器提供器 通过这个可以获取到jdk层面的selector实例
         this(nThreads, executor, SelectorProvider.provider());
     }
 
@@ -88,11 +93,20 @@ public class NioEventLoopGroup extends MultithreadEventLoopGroup {
 
     public NioEventLoopGroup(
             int nThreads, Executor executor, final SelectorProvider selectorProvider) {
+        //内部线程数量
+        //执行器
+        //选择器提供器 通过这个可以获取到jdk层面的selector实例
+        //选择器工作策略DefaultSelectStrategy
         this(nThreads, executor, selectorProvider, DefaultSelectStrategyFactory.INSTANCE);
     }
 
     public NioEventLoopGroup(int nThreads, Executor executor, final SelectorProvider selectorProvider,
                              final SelectStrategyFactory selectStrategyFactory) {
+        //内部线程数量
+        //执行器
+        //选择器提供器 通过这个可以获取到jdk层面的selector实例
+        //选择器工作策略DefaultSelectStrategy
+        //线程池拒绝策略
         super(nThreads, executor, selectorProvider, selectStrategyFactory, RejectedExecutionHandlers.reject());
     }
 
@@ -138,10 +152,22 @@ public class NioEventLoopGroup extends MultithreadEventLoopGroup {
             ((NioEventLoop) e).rebuildSelector();
         }
     }
-
+    //executor:ThreadPerTaskExecutor实例 该实例里有ThreadFactory实例 ThreadPerTaskExecutor通过这个工厂可以制造出线程
+    //并且线程名称className + poolId + 线程id 并且线程实例类型为FastThreadLocalThread
+    //args:
+    //选择器提供器 通过这个可以获取到jdk层面的selector实例 selector Provider
+    //选择器工作策略DefaultSelectStrategy selectStrategy
+    //线程池拒绝策略
     @Override
     protected EventLoop newChild(Executor executor, Object... args) throws Exception {
+        //正常情况queueFactory = null
         EventLoopTaskQueueFactory queueFactory = args.length == 4 ? (EventLoopTaskQueueFactory) args[3] : null;
+        //NioEventLoopGroup
+        //executor:ThreadPerTaskExecutor实例
+        //selectorProvider
+        //DefaultSelectStrategy
+        //线程池拒绝策略
+        //queueFactory
         return new NioEventLoop(this, executor, (SelectorProvider) args[0],
             ((SelectStrategyFactory) args[1]).newSelectStrategy(), (RejectedExecutionHandler) args[2], queueFactory);
     }
